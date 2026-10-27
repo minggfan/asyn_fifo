@@ -32,7 +32,6 @@ logic [ADDR_WIDTH:0]   r_ptr_grey;         // grey code
 logic [ADDR_WIDTH:0]   r_ptr_grey_w_sync1; 
 logic [ADDR_WIDTH:0]   r_ptr_grey_w_sync2; // Synchronized by 2FF in write domain
 
-
 // ******************** Memory Access *********************
 always_ff @(posedge w_clk) begin
   if(w_inc && !w_full)
@@ -98,6 +97,5 @@ always_ff @(posedge r_clk or negedge r_rst_n) begin
 end
 
 assign r_empty = (r_ptr_grey == w_ptr_grey_rsync2);
-
 
 endmodule
