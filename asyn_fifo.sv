@@ -100,6 +100,7 @@ assign r_empty = (r_ptr_grey == w_ptr_grey_rsync2);
 
 endmodule
 
+
 interface asyn_fifo_if #(
   parameter int unsigned DATA_WIDTH = 8  // Number of bit in a data
 )();
