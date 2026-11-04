@@ -24,13 +24,13 @@ logic [DATA_WIDTH-1]   mem [0:FIFO_DEPTH];
 
 logic [ADDR_WIDTH:0]   w_addr;             // Memory write address in binary      
 logic [ADDR_WIDTH:0]   w_ptr_grey;         // grey code
-logic [ADDR_WIDTH:0]   w_ptr_grey_r_sync1; 
-logic [ADDR_WIDTH:0]   w_ptr_grey_r_sync2; // Synchronized by 2FF in read domain
+logic [ADDR_WIDTH:0]   w2r_ptr_grey_sync1; 
+logic [ADDR_WIDTH:0]   w2r_ptr_grey_sync2; // Synchronized by 2FF in read domain
 
 logic [ADDR_WIDTH:0]   r_addr;             // Memory read address in binary
 logic [ADDR_WIDTH:0]   r_ptr_grey;         // grey code
-logic [ADDR_WIDTH:0]   r_ptr_grey_w_sync1; 
-logic [ADDR_WIDTH:0]   r_ptr_grey_w_sync2; // Synchronized by 2FF in write domain
+logic [ADDR_WIDTH:0]   r2w_ptr_grey_sync1; 
+logic [ADDR_WIDTH:0]   r2w_ptr_grey_sync2; // Synchronized by 2FF in write domain
 
 // ******************** Memory Access *********************
 always_ff @(posedge w_clk) begin
@@ -66,16 +66,16 @@ end
 
 always_ff @(posedge w_clk or negedge w_rst_n) begin
   if(~w_rst_n) begin
-    r_ptr_grey_wsync1 <= '0;
-    r_ptr_grey_wsync2 <= '0; 
+    r2w_ptr_grey_sync1 <= '0;
+    r2w_ptr_grey_sync2 <= '0; 
   end
   else begin
-    r_ptr_grey_wsync1 <= r_ptr_grey;
-    r_ptr_grey_wsync2 <= r_ptr_grey_wsync1;
+    r2w_ptr_grey_sync1 <= r_ptr_grey;
+    r2w_ptr_grey_sync2 <= r2w_ptr_grey_sync1;
   end
 end
 
-assign w_full = (w_ptr_grey == {~r_ptr_grey_wsync2[ADDR_WIDTH:ADDR_WIDTH-1], r_ptr_grey_wsync2[ADDR_WIDTH-2:0]});
+assign w_full = (w_ptr_grey == {~r2w_ptr_grey_sync2[ADDR_WIDTH:ADDR_WIDTH-1], r2w_ptr_grey_sync2[ADDR_WIDTH-2:0]});
 
 // ******************** Read domain ********************
 always_ff @(posedge r_clk or negedge r_rst_n) begin
@@ -87,18 +87,18 @@ end
 
 always_ff @(posedge r_clk or negedge r_rst_n) begin
   if(~r_rst_n) begin
-    w_ptr_grey_rsync1 <= '0;
-    w_ptr_grey_rsync2 <= '0; 
+    w2r_ptr_grey_sync1 <= '0;
+    w2r_ptr_grey_sync2 <= '0; 
   end
   else begin
-    w_ptr_grey_rsync1 <= w_ptr_grey;
-    w_ptr_grey_rsync2 <= w_ptr_grey_rsync1;
+    w2r_ptr_grey_sync1 <= w_ptr_grey;
+    w2r_ptr_grey_sync2 <= w2r_ptr_grey_sync1;
   end
 end
 
-assign r_empty = (r_ptr_grey == w_ptr_grey_rsync2);
+assign r_empty = (r_ptr_grey == w2r_ptr_grey_sync2);
 
-endmodule
+endmodule: asyn_fifo
 
 
 interface asyn_fifo_if #(
@@ -116,4 +116,4 @@ interface asyn_fifo_if #(
   logic r_data[DATA_WIDTH-1:0];
   logic r_empty;
 
-endinterface
+endinterface: asyn_fifo_if
