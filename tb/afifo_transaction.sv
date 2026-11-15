@@ -1,6 +1,6 @@
 
-class trans #(int DATA_WIDTH = 8) extends uvm_sequence_item;
-`uvm_object_utils(trans #(DATA_WIDTH))
+class afifo_trans #(int DATA_WIDTH = 8) extends uvm_sequence_item;
+`uvm_object_utils(afifo_trans #(DATA_WIDTH))
   
    logic w_clk;
    logic w_rst_n;
@@ -13,11 +13,11 @@ class trans #(int DATA_WIDTH = 8) extends uvm_sequence_item;
    logic r_data[DATA_WIDTH-1:0];
    logic r_empty;
 
-   function new(input string path = "trans");
+   function new(input string path = "afifo_trans");
     super.new(path);
    endfunction
 
 endclass
 
-typedef trans #(8)  trans_dw1byte;
-typedef trans #(16) trans_dw2byte;
+typedef afifo_trans #(8)  afifo_trans_1byte;
+typedef afifo_trans #(16) afifo_trans_2byte;

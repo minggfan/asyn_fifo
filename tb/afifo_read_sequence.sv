@@ -1,10 +1,10 @@
 
-class generator extends uvm_sequence#(transaction);
+class afifo_seq extends uvm_sequence#(transaction);
 `uvm_object_utils(generator)
   
-    transaction tr;
+   transaction afifo_trans;
  
-   function new(input string path = "generator");
+   function new(input string path = "afifo_seq");
     super.new(path);
    endfunction
    

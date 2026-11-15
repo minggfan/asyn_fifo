@@ -1,31 +1,17 @@
+`timescale 1ns / 1ps
 `include "uvm_macros.svh"
-import uvm_pkg::*;
-import tb_afifo_pkg::*;
 
-module tb;
- 
-  mul_if mif();
-  mul dut (.a(mif.a), .b(mif.b), .y(mif.y));
-  UVM_FILE log;
-  uvm_root root;
+module afifo_tb_top;
 
-  initial 
-  begin
-    root = uvm_root::get();
-    log = $fopen("./mul4x4/sim.txt", "w");
-    root.set_report_default_file_hier(log);
-    root.set_report_severity_action_hier(UVM_INFO,    UVM_DISPLAY | UVM_LOG);
-    root.set_report_severity_action_hier(UVM_ERROR,   UVM_DISPLAY | UVM_LOG);
-    root.set_report_severity_action_hier(UVM_FATAL,   UVM_DISPLAY | UVM_LOG);
-    
+  import uvm_pkg::*;
+  import afifo_test_pkg::*;
+
+  asyn_fifo_interface afifo_if();
+  asyn_fifo dut (.a(mif.a), .b(mif.b), .y(mif.y));
+
+  initial begin
     uvm_config_db #(virtual mul_if)::set(null, "*", "mif", mif);
     run_test("test"); 
-
-    $fclose(log);
   end
  
-  initial begin
-    $dumpfile("./mul4x4/dump.vcd");
-    $dumpvars;
-  end
 endmodule

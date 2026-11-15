@@ -7,14 +7,14 @@ module asyn_fifo #(
   input  logic w_clk,
   input  logic w_rst_n,
   input  logic w_inc,
-  input  logic w_data[DATA_WIDTH-1:0],
+  input  logic [DATA_WIDTH-1:0] w_data,
   output logic w_full,
 
   // Read
   input  logic r_clk,
   input  logic r_rst_n,
   input  logic r_inc,
-  output logic r_data[DATA_WIDTH-1:0],
+  output logic [DATA_WIDTH-1:0] r_data,
   output logic r_empty,
 );
 
@@ -99,21 +99,3 @@ end
 assign r_empty = (r_ptr_grey == w2r_ptr_grey_sync2);
 
 endmodule: asyn_fifo
-
-
-interface asyn_fifo_if #(
-  parameter int unsigned DATA_WIDTH = 8  // Number of bit in a data
-)();
-
-  logic w_clk;
-  logic w_rst_n;
-  logic w_inc;
-  logic w_data[DATA_WIDTH-1:0];
-  logic w_full;
-  logic r_clk;
-  logic r_rst_n;
-  logic r_inc;
-  logic r_data[DATA_WIDTH-1:0];
-  logic r_empty;
-
-endinterface: asyn_fifo_if
