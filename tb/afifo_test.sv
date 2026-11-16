@@ -1,9 +1,9 @@
 
-class test extends uvm_test;
-`uvm_component_utils(test)
+class afifo_test extends uvm_test;
+`uvm_component_utils(afifo_test)
  
-function new(input string inst = "test", uvm_component c);
-super.new(inst,c);
+function new(input string inst = "afifo_test", uvm_component c);
+  super.new(inst,c);
 endfunction
  
 env e;
