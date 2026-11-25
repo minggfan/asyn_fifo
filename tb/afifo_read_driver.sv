@@ -1,11 +1,11 @@
 
-class drv extends uvm_driver#(transaction);
-  `uvm_component_utils(drv)
+class afifo_read_driver extends uvm_driver#(transaction);
+  `uvm_component_utils(afifo_read_driver)
  
   transaction tr;
   virtual mul_if mif;
  
-  function new(input string path = "drv", uvm_component parent = null);
+  function new(input string path = "afifo_read_driver", uvm_component parent = null);
     super.new(path,parent);
   endfunction
  

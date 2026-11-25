@@ -1,26 +1,25 @@
 
-class agt extends uvm_agent;
-`uvm_component_utils(agt)
+class afifo_read_agent extends uvm_agent;
+`uvm_component_utils(afifo_read_agent)
  
-function new(input string inst = "agt", uvm_component parent = null);
+function new(input string inst = "afifo_read_agent", uvm_component parent = null);
 super.new(inst,parent);
 endfunction
  
- drv d;
- mon m;
- uvm_sequencer #(trans) sqr;
-
+afifo_read_driver drv_r;
+afifo_read_monitor mon_r;
+uvm_sequencer #(trans) sqr;
  
 virtual function void build_phase(uvm_phase phase);
 super.build_phase(phase);
- d = drv::type_id::create("d",this);
- m = mon::type_id::create("m",this);
- seqr = uvm_sequencer#(transaction)::type_id::create("seqr", this);
+    drv_r = afifo_read_driver::type_id::create("drv_r",this);
+    mon_r = afifo_read_monitor::type_id::create("mon_r",this);
+    seqr = uvm_sequencer#(transaction)::type_id::create("seqr", this);
 endfunction
  
 virtual function void connect_phase(uvm_phase phase);
-super.connect_phase(phase);
-d.seq_item_port.connect(seqr.seq_item_export);
+    super.connect_phase(phase);
+    drv_r.seq_item_port.connect(seqr.seq_item_export);
 endfunction
  
 endclass

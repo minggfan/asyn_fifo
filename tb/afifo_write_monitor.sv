@@ -1,12 +1,12 @@
 
-class mon extends uvm_monitor;
-`uvm_component_utils(mon)
+class afifo_write_monitor extends uvm_monitor;
+`uvm_component_utils(afifo_write_monitor)
  
 uvm_analysis_port#(transaction) send;
 transaction tr;
 virtual mul_if mif;
  
-    function new(input string inst = "mon", uvm_component parent = null);
+    function new(input string inst = "afifo_write_monitor", uvm_component parent = null);
     super.new(inst,parent);
     endfunction
     

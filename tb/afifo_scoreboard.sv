@@ -1,11 +1,11 @@
 
-class sco extends uvm_scoreboard;
-`uvm_component_utils(sco)
+class afifo_scoreboard extends uvm_scoreboard;
+`uvm_component_utils(afifo_scoreboard)
  
-  uvm_analysis_imp#(transaction,sco) recv;
+  uvm_analysis_imp#(transaction,afifo_scoreboard) recv;
  
  
-    function new(input string inst = "sco", uvm_component parent = null);
+    function new(input string inst = "afifo_scoreboard", uvm_component parent = null);
     super.new(inst,parent);
     endfunction
     

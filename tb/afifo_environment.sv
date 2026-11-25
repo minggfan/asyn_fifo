@@ -8,18 +8,19 @@ endfunction
  
 afifo_read_agent agt_r;
 afifo_write_agent agt_w;
-afifo_scoreboard sco;
+afifo_scoreboard scb;
  
 virtual function void build_phase(uvm_phase phase);
 super.build_phase(phase);
   agt_r = afifo_read_agent::type_id::create("agt_r",this);
   agt_w = afifo_write_agent::type_id::create("agt_w",this);
-  sco = afifo_scoreboard::type_id::create("sco", this);
+  scb = afifo_scoreboard::type_id::create("scb", this);
 endfunction
  
 virtual function void connect_phase(uvm_phase phase);
-super.connect_phase(phase);
-a.m.send.connect(s.recv);
+  super.connect_phase(phase);
+  agt_r.mon.send.connect(scb.recv);
+  agt_w.mon.send.connect(scb.recv);
 endfunction
  
 endclass
